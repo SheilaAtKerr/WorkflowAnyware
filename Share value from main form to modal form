@@ -1,0 +1,16 @@
+Share value of MAINCYMAID
+Main form: 
+public void Details1_BeforeShowModal(object sender, eBATableModalEventArgs args)
+{
+        args.parameters.Add("MAINCYMAID",CYMACOM.Text);
+
+}
+
+Modal form:
+public void OnModalLoad(ModalParameters parameters)
+{
+  string str = parameters["MAINCYMAID"].ToString();
+
+  CYMACOMID.Text = str; 
+
+}
