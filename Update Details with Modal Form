@@ -1,0 +1,17 @@
+Update data in Detail with modal form:
+foreach(DataRow dr in Details1.Data.Rows)
+{
+    eBAForm modalForm = new eBAForm(int.Parse(dr["DOCUMENTID"].ToString()));
+
+    modalForm.Fields["GLAccount_TEXT"].AsString = ExpAccount.Text+DepartmentID.Text;
+
+    modalForm.Fields["GLAccount"].AsString  = ExpAccount.Text+DepartmentID.Text;
+
+    modalForm.Fields["Product_TEXT"].AsString = dr["Product"].ToString();
+
+    modalForm.Fields["Product"].AsString  = dr["Product"].ToString();
+
+    modalForm.Update();
+
+   dr["GLAccount"] = ExpAccount.Text+DepartmentID.Text;
+}
