@@ -1,0 +1,55 @@
+//Hide column
+((TextBox)EquipmentGrid.GetRowObject(i, "MonAdjEquipment")).Attributes.Add("style", "display:none");
+   
+   
+//Delete rows
+public void LaborGrid_RowDeleting(object sender, DetailsGridDeleteRowEventArgs args)
+{
+    args.allow = false;
+    var dt = new DataTable();
+    dt.Columns.Add("txtRateLabor");
+    dt.Columns.Add("txtNameLabor");
+    dt.Columns.Add("lstBillingTypeLabor");
+    dt.Columns.Add("lstBillingTypeLabor_TEXT");
+    dt.Columns.Add("lstItemLabor");
+    dt.Columns.Add("lstItemLabor_TEXT");
+    dt.Columns.Add("lstUnitLabor");
+    dt.Columns.Add("lstUnitLabor_TEXT");
+
+    //read rows from grid
+    for(int i = 0; i < LaborGrid.CurrentRowCount; i++)
+    {           
+        if(!((CheckBox)LaborGrid.GetRowObject(i,"chkDeleteLabor")).Checked)
+        {
+            var dr = dt.NewRow();
+            dr["txtRateLabor"] = ((TextBox)LaborGrid.GetRowObject(i,"txtRateLabor")).Text;
+            dr["txtNameLabor"] = ((TextBox)LaborGrid.GetRowObject(i,"txtNameLabor")).Text;
+            dr["lstBillingTypeLabor"] = ((DropDownList)LaborGrid.GetRowObject(i,"lstBillingTypeLabor")).SelectedItem.Value;
+            dr["lstBillingTypeLabor_TEXT"] = ((DropDownList)LaborGrid.GetRowObject(i,"lstBillingTypeLabor")).SelectedItem.Text;
+            dr["lstItemLabor"] = ((eBAComboBox)LaborGrid.GetRowObject(i,"lstItemLabor")).Value;
+            dr["lstItemLabor_TEXT"] = ((eBAComboBox)LaborGrid.GetRowObject(i,"lstItemLabor")).Text;
+            dr["lstUnitLabor"] = ((DropDownList)LaborGrid.GetRowObject(i,"lstUnitLabor")).SelectedItem.Value;
+            dr["lstUnitLabor_TEXT"] = ((DropDownList)LaborGrid.GetRowObject(i,"lstUnitLabor")).SelectedItem.Text;
+            dt.Rows.Add(dr);                                    
+        }
+
+    }
+    
+    //delete all rows
+    LaborGrid.CurrentRowCount = 0;  
+    
+    //fill in rows
+    for(int i = 0; i < dt.Rows.Count; i++)
+    {
+        LaborGrid.CurrentRowCount++;
+        ((TextBox)LaborGrid.GetRowObject(i,"txtRateLabor")).Text = dt.Rows[i]["txtRateLabor"].ToString();
+        ((TextBox)LaborGrid.GetRowObject(i,"txtNameLabor")).Text = dt.Rows[i]["txtNameLabor"].ToString();
+        ((DropDownList)LaborGrid.GetRowObject(i,"lstBillingTypeLabor")).SelectedItem.Text = dt.Rows[i]["lstBillingTypeLabor_TEXT"].ToString();
+        ((DropDownList)LaborGrid.GetRowObject(i,"lstBillingTypeLabor")).SelectedItem.Value = dt.Rows[i]["lstBillingTypeLabor"].ToString();
+        ((eBAComboBox)LaborGrid.GetRowObject(i,"lstItemLabor")).Text = dt.Rows[i]["lstItemLabor_TEXT"].ToString();
+        ((eBAComboBox)LaborGrid.GetRowObject(i,"lstItemLabor")).Value = dt.Rows[i]["lstItemLabor"].ToString();
+        ((DropDownList)LaborGrid.GetRowObject(i,"lstUnitLabor")).SelectedItem.Text = dt.Rows[i]["lstUnitLabor_TEXT"].ToString();
+        ((DropDownList)LaborGrid.GetRowObject(i,"lstUnitLabor")).SelectedItem.Value = dt.Rows[i]["lstUnitLabor"].ToString();
+        ((CheckBox)LaborGrid.GetRowObject(i,"chkDeleteLabor")).Checked = false;           
+    }  
+}
