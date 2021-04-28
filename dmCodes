@@ -1,0 +1,28 @@
+//add profile from a form to dm. The form is added as profile to dm folder. The funciton can be added to OnSaveData().
+public void funDMprofile_Execute()
+		{
+			  /
+              eBAConnection con2 = CreateServerConnection();
+
+               try  
+
+               {       
+
+                  con2.Open();
+
+                //Belge.Path = filename;
+
+                DMFile dmFile = con2.FileSystem.GetFile(@"RhinoFood/Test/G0010/SKM_C250i21041210002.pdf");
+
+                dmFile.ObjectProperties.Profile=Document1.ProfileId;
+
+               }
+
+               finally
+
+               {     
+
+                 con2.Close();
+
+               }     
+		}   
