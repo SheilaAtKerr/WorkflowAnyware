@@ -26,3 +26,52 @@ public void funDMprofile_Execute()
 
                }     
 		}   
+
+
+//add related file to a form
+using eBAPI.DocumentManagement;
+
+public void OnBeforeSaveDocument(eBABeforeSaveDocumentEventArgs args)
+		{
+            eBAConnection con = CreateServerConnection();
+		    try
+            {
+                con.Open();
+                string BOLID =  getBOL(con);
+                if (BOLID !="")
+                {
+                    AddRelatedBOL(BOLID);
+                    RefreshRelations(RelatedDocuments1);	
+                }
+             }
+            finally {
+               con.Close();
+            }	  
+		}
+private void AddRelatedBOL(string formID)
+		{
+		    eBAConnection con = CreateServerConnection();
+            try
+            {
+            con.Open();
+            FileSystem fs = con.FileSystem;
+            DMFile sourceForm = fs.GetFile("workflow/BOL/Form/"+formID+".wfd");
+            DMFile targetForm = fs.GetFile("workflow/E_testap1_Form/Form/"+id+".wfd");
+            foreach(DMFileRelation rel in sourceForm.GetRelations())
+            {
+                    if(rel.Category=="default") //Optional, if you have multiple category and DM file related to the first form
+            		{ 
+            		DMFile flName = fs.GetFile(rel.Path);
+            		string fileName=flName.Content.Name;
+            		targetForm.AddRelation(rel.Path,"default");
+            		
+                     eBAForm frm = new eBAForm(int.Parse(formID));
+                     frm.Fields["InvoceNo"].AsString=InvoiceNumber.Text;
+                     frm.Update();
+                      //string sql ="UPDATE E_BOL_Form SET InvoceNo='"+InvoiceNumber.Text+"' WHERE ID='"+formID+"'";
+                      //ExecQuery(sql);
+            		}
+            	}
+            } 
+            finally{con.Close();}	
+		}
