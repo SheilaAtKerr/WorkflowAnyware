@@ -1,0 +1,21 @@
+ eBAMail ebamail = new eBAMail();
+            ebamail.FromName = @"Workflow Anyware";
+            ebamail.TO.Add(strUserMail);    
+            ebamail.Subject = @"Purchase Invoice Rejection";
+            ebamail.Body = @"Invoice '" + varInvNo.Value + "' is rejected by " + rejName + ".<br><br>"
+                + "Reason: "+varReason.Value+"<br>";
+            ebamail.Subject=FormatMessage(ebamail.Subject,false);
+            ebamail.Body=FormatMessage(ebamail.Body,ebamail.IsHtml);
+            
+            eBAConnection con = CreateServerConnection();
+            
+            try
+            {
+               //ebamail.AddAttachmentFromDMFileSystem(con, contract.Path);
+               con.Open();
+            }
+            finally
+            {
+               con.Close();
+            }	
+            ebamail.Send();	
