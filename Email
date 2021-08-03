@@ -18,4 +18,6 @@
             {
                con.Close();
             }	
+            ebamail.Attachments.Add(@"C:\test2.pdf");
+
             ebamail.Send();	
