@@ -1,0 +1,19 @@
+//Insert
+foreach(DataRow dr in dt.Rows)
+{  
+    DataRow row=Table1.CreateRow();
+    row["CHECKED"] = 0;
+    row["CUSTOMERID"] = dr["CUSTOMERID"].ToString();
+    row["CUSTOMERNAME"]= dr["CUSTOMERNAME"].ToString();
+    row["TOTALDUE"] = dr["TOTALDUE"].ToString();
+    Table1.InsertRow(row);
+}
+
+//Query
+foreach(DataRow dr in Table1.Data.Rows)
+{
+
+    if (dr["CHECKED"].ToString() == "1")
+    {
+    }
+}
